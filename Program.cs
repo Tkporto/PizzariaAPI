@@ -14,8 +14,10 @@ var app = builder.Build();
 //INICIO PIZZA CRUD
 app.MapGet("/", () => "Hello World!");
 
+
 app.MapGet("/pizzas", async (DataContext db) =>
     await db.Pizzas.ToListAsync());
+
 
 app.MapGet("/pizzas/{id}", async (int id, DataContext db) =>
     await db.Pizzas.FindAsync(id)
@@ -28,7 +30,6 @@ app.MapGet("/pizzas/buscar/{sabor}", (string sabor, DataContext db) =>
 {
     return db.Pizzas.Where(t => t.Sabor.Equals(sabor));
 });
-
 
 
 app.MapPost("/pizzas/cadastrar", async (Pizza pizza, DataContext db) =>
@@ -54,7 +55,6 @@ app.MapPut("/pizzas/alterar/{id}", async (int id, Pizza inputPizza, DataContext 
 });
 
 
-
 app.MapDelete("/pizza/deletar/{id}", async (int id, DataContext db) =>
 {
     if (await db.Pizzas.FindAsync(id) is Pizza pizza)
@@ -71,8 +71,10 @@ app.MapDelete("/pizza/deletar/{id}", async (int id, DataContext db) =>
 //INICIO USUARIO
 app.MapGet("/", () => "Hello World!");
 
+
 app.MapGet("/usuarios", async (DataContext db) =>
     await db.Usuarios.ToListAsync());
+
 
 app.MapGet("/usuarios/{id}", async (int id, DataContext db) =>
     await db.Usuarios.FindAsync(id)
@@ -80,23 +82,12 @@ app.MapGet("/usuarios/{id}", async (int id, DataContext db) =>
             ? Results.Ok(usuario)
             : Results.NotFound());
 
+
 app.MapGet("/usuarios/buscar/{cpf}", (string cpf, DataContext db) =>
 {
     return db.Usuarios.Where(t => t.Cpf.Equals(cpf));
 });
 
-// app.MapGet("/usuarios/buscar/{cpf}", async (String cpf, DataContext db) =>
-//     await db.Usuarios.FindAsync(cpf)
-//         is Usuario usuario
-//             ? Results.Ok(usuario)
-//             : Results.NotFound());
-
-//listar usuario especifico (por email)
-// app.MapGet("/usuario/buscar/{cpf}", (string cpf, DataContext db) => {
-// 	return db.Usuarios.Equals(cpf);
-// });
-
-//app.MapGet("/usuarios/buscar/{cpf}", (string cpf, DataContext db) => db.Usuarios.Where(t => t.Cpf.Contains(cpf)));
 
 app.MapPost("/usuarios/cadastrar", async (Usuario usuario, DataContext db) =>
 {
@@ -105,6 +96,7 @@ app.MapPost("/usuarios/cadastrar", async (Usuario usuario, DataContext db) =>
     await db.SaveChangesAsync();
     return Results.Created($"/usuarios/{usuario.Id}", usuario);
 });
+
 
 app.MapPut("/usuarios/alterar/{id}", async (int id, Usuario inputUsuario, DataContext db) =>
 {
@@ -120,6 +112,7 @@ app.MapPut("/usuarios/alterar/{id}", async (int id, Usuario inputUsuario, DataCo
     return Results.NoContent();
 });
 
+
 app.MapDelete("/usuarios/deletar/{id}", async (int id, DataContext db) =>
 {
     if (await db.Usuarios.FindAsync(id) is Usuario usuario)
@@ -131,10 +124,16 @@ app.MapDelete("/usuarios/deletar/{id}", async (int id, DataContext db) =>
 
     return Results.NotFound();
 });
+
+
 //FIM USUARIO
 //INICIO MESAS
 app.MapGet("/mesas", async (DataContext db) =>
     await db.Mesas.ToListAsync());
+
+
 // FIM MESAS
 
 app.Run();
+
+

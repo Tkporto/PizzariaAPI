@@ -25,21 +25,38 @@ namespace PizzariaAPI.Migrations
                     b.Property<int>("Lugares")
                         .HasColumnType("INTEGER");
 
-                    b.Property<double>("TotalValor")
-                        .HasColumnType("REAL");
+                    b.HasKey("Id");
+
+                    b.ToTable("Mesas");
+                });
+
+            modelBuilder.Entity("Pedido", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Horario")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("MesaId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PizzaId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("mesas");
+                    b.ToTable("Pedidos");
                 });
 
             modelBuilder.Entity("Pizza", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("MesaId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Sabor")
@@ -49,8 +66,6 @@ namespace PizzariaAPI.Migrations
                         .HasColumnType("REAL");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MesaId");
 
                     b.ToTable("Pizzas");
                 });
@@ -69,19 +84,7 @@ namespace PizzariaAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("usuarios");
-                });
-
-            modelBuilder.Entity("Pizza", b =>
-                {
-                    b.HasOne("Mesa", null)
-                        .WithMany("Pizzas")
-                        .HasForeignKey("MesaId");
-                });
-
-            modelBuilder.Entity("Mesa", b =>
-                {
-                    b.Navigation("Pizzas");
+                    b.ToTable("Usuarios");
                 });
 #pragma warning restore 612, 618
         }
