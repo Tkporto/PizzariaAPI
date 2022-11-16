@@ -69,8 +69,6 @@ app.MapDelete("/pizza/deletar/{id}", async (int id, DataContext db) =>
 
 //FIM PIZZA CRUD
 //INICIO USUARIO
-app.MapGet("/", () => "Hello World!");
-
 
 app.MapGet("/usuarios", async (DataContext db) =>
     await db.Usuarios.ToListAsync());
@@ -132,7 +130,29 @@ app.MapGet("/mesas", async (DataContext db) =>
     await db.Mesas.ToListAsync());
 
 
+app.MapGet("/mesas/{id}", async (int id, DataContext db) =>
+    await db.Mesas.FindAsync(id)
+        is Mesa mesa
+            ? Results.Ok(mesa)
+            : Results.NotFound());
+
+
+app.MapPost("/mesas/cadastrar", async (Mesa mesa, DataContext db) =>
+{
+    db.Mesas.Add(mesa);
+    await db.SaveChangesAsync();
+    return Results.Created($"/mesas/{mesa.Id}", mesa);
+});
+
+
 // FIM MESAS
+//INICIO PEDIDOS
+app.MapGet("/pedidos", async (DataContext db) =>
+    await db.Pedidos.ToListAsync());
+
+
+// FIM PEDIDOS
+
 
 app.Run();
 
